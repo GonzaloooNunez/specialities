@@ -34,6 +34,21 @@ const usersData = [
   { id: 30, name: "Derek", age: 30, specialty: "marketing" },
 ];
 
+function paginaUsuarios(res, titulo, users) {
+  const liUsuario = users
+    .map((user) => `<li>${user.name}, ${user.age} años</li>`)
+    .join("");
+  const html = `
+      <h1>${titulo}</h1>
+      <p>Numero de usuarios: ${users.length}</p>
+      <ul>${liUsuario}</ul>
+      <a href="/marketing">Marketing</a><br></br>
+      <a href="/developers">Developers</a><br></br>
+      <a href="/QAs">QAs</a>
+    `;
+  res.send(html);
+}
+
 function filtradoUsuarios(specialty) {
   return usersData.filter((user) => user.specialty === specialty);
 }
@@ -53,23 +68,8 @@ app.get("/QAs", (req, res) => {
   paginaUsuarios(res, "QAs", filtroUsers);
 });
 
-function paginaUsuarios(res, titulo, users) {
-  const listaUsuario = users
-    .map((user) => `<li>${user.name}, ${user.age} años</li>`)
-    .join("");
-  const html = `
-      <h1>${titulo}</h1>
-      <p>Numero de usuarios: ${users.length}</p>
-      <ul>${listaUsuario}</ul>
-      <a href="/marketing">Marketing</a><br></br>
-      <a href="/developers">Developers</a><br></br>
-      <a href="/QAs">QAs</a>
-    `;
-  res.send(html);
-}
-
 app.use((req, res) => {
-  res.status(404).send("<p>Página no encontrada</p>");
+  res.status(404).send("Página no encontrada");
 });
 
 app.listen(3000, () => {
